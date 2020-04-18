@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Objects/Player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Objects/Room/Room.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Objects/Selector/Selector.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Objects/Tools/WaterCan/WaterCan.tscn" type="PackedScene" id=4]
+[ext_resource path="res://UI/UI.tscn" type="PackedScene" id=5]
+
+[node name="Game" type="Spatial"]
+
+[node name="Room" parent="." instance=ExtResource( 2 )]
+collision_layer = 2
+collision_mask = 2
+
+[node name="Player" parent="Room" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 3.5 )
+
+[node name="Selector" parent="Room" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.05, 3.5 )
+visible = false
+
+[node name="WaterCan2" parent="Room" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.41181, 0.0964046, 1.49106 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, -0.376079, 0.926588, 0, -0.926588, -0.376079, 1.80549, 9.9739, 1.072 )
+visible = false
+light_energy = 0.2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" parent="CanvasLayer" instance=ExtResource( 5 )]
