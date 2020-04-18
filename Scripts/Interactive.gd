@@ -1,6 +1,7 @@
 extends Spatial
 class_name Interactive
 
+onready var box: Spatial = $"CSGBox"
 onready var outline: MeshInstance = $"Outline";
 var outline_material: Material;
 var display_name := "";
@@ -26,4 +27,12 @@ func show_hover() -> void:
 func hide_hover() -> void:
 	outline_material.albedo_color = Color.black;
 	
+
+func render_infront() -> void:
+	box.material_override.flags_no_depth_test = true
+	outline_material.flags_no_depth_test = true
 	
+
+func render_normal() -> void:
+	box.material_override.flags_no_depth_test = false
+	outline_material.flags_no_depth_test = false

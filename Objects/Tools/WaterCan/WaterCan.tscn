@@ -3,6 +3,7 @@
 [ext_resource path="res://Objects/Tools/WaterCan/WaterCan.gd" type="Script" id=1]
 
 [sub_resource type="SpatialMaterial" id=1]
+render_priority = 2
 params_diffuse_mode = 4
 params_specular_mode = 3
 roughness = 0.12
@@ -21,6 +22,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=3]
+render_priority = 1
 flags_unshaded = true
 vertex_color_use_as_albedo = true
 params_diffuse_mode = 4
@@ -28,19 +30,18 @@ params_specular_mode = 3
 albedo_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="BoxShape" id=4]
-extents = Vector3( 0, 0, 0 )
+extents = Vector3( 0.1, 0.1, 0.1 )
 
 [node name="WaterCan" type="StaticBody" groups=[
 "interactive",
 ]]
-collision_layer = 0
+collision_layer = 16384
 collision_mask = 0
 script = ExtResource( 1 )
 
 [node name="CSGBox" type="CSGBox" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
 material_override = SubResource( 1 )
-use_collision = true
 collision_layer = 16384
 collision_mask = 16384
 width = 0.2
@@ -49,8 +50,10 @@ depth = 0.2
 
 [node name="Outline" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
+layers = 16384
 mesh = SubResource( 2 )
 material/0 = SubResource( 3 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
 shape = SubResource( 4 )
