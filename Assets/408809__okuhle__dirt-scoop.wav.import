@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/408809__okuhle__dirt-scoop.wav-1a73cf38cf2a7f83dfb4bc529fa0a213.sample"
+
+[deps]
+
+source_file="res://Assets/408809__okuhle__dirt-scoop.wav"
+dest_files=[ "res://.import/408809__okuhle__dirt-scoop.wav-1a73cf38cf2a7f83dfb4bc529fa0a213.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
