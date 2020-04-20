@@ -5,47 +5,62 @@
 [ext_resource path="res://UI/HelperMessage/HelperMessage.gd" type="Script" id=3]
 
 [sub_resource type="DynamicFont" id=1]
-size = 32
+size = 48
 font_data = ExtResource( 2 )
 
 [node name="HelperMessage" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -1420.0
+margin_right = -1380.0
 margin_bottom = -880.0
-rect_min_size = Vector2( 500, 200 )
+rect_min_size = Vector2( 540, 200 )
 mouse_filter = 2
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+margin_right = 540.0
+margin_bottom = 200.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 0
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer2"]
+margin_left = 20.0
+margin_right = 520.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 500, 200 )
 mouse_filter = 2
 texture = ExtResource( 1 )
+expand = true
 flip_h = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2"]
+margin_left = 20.0
+margin_right = 520.0
+margin_bottom = 200.0
 rect_min_size = Vector2( 500, 200 )
 mouse_filter = 2
 custom_constants/margin_right = 30
-custom_constants/margin_top = 69
+custom_constants/margin_top = 65
 custom_constants/margin_left = 30
 custom_constants/margin_bottom = 37
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextLabel" type="RichTextLabel" parent="MarginContainer"]
+[node name="TextLabel" type="RichTextLabel" parent="MarginContainer2/MarginContainer"]
 margin_left = 30.0
-margin_top = 69.0
+margin_top = 65.0
 margin_right = 470.0
 margin_bottom = 163.0
 rect_clip_content = false

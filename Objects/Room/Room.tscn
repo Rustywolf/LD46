@@ -1,13 +1,20 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Objects/Room/Room.gd" type="Script" id=1]
 [ext_resource path="res://Objects/Workbench/Workbench.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Objects/Table/Table.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Objects/ReceivingTable/ReceivingTable.tscn" type="PackedScene" id=4]
 
 [sub_resource type="SpatialMaterial" id=1]
 params_diffuse_mode = 1
 params_specular_mode = 1
 
 [sub_resource type="BoxShape" id=2]
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_transparent = true
+flags_unshaded = true
+albedo_color = Color( 1, 1, 1, 0.2 )
 
 [node name="Room" type="StaticBody"]
 script = ExtResource( 1 )
@@ -23,14 +30,6 @@ collision_layer = 16385
 width = 10.0
 height = 0.2
 depth = 7.0
-
-[node name="Roof" type="CSGBox" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 3.1, 5 )
-material_override = SubResource( 1 )
-use_collision = true
-width = 10.0
-height = 0.2
-depth = 5.0
 
 [node name="WallXPos" type="CSGBox" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 1.5, 3.5 )
@@ -69,55 +68,38 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00436115, -0.00831473, 0.01
 shape = SubResource( 2 )
 disabled = true
 
-[node name="Spatial" type="Spatial" parent="."]
+[node name="Benches" type="Spatial" parent="."]
 
-[node name="Workbench" parent="Spatial" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 1 )
+[node name="Workbench7" parent="Benches" instance=ExtResource( 2 )]
+transform = Transform( -1.46629e-07, 0, -0.9, 0, 0.9, 0, 0.9, 0, -1.46629e-07, 8.5, 0, 3 )
 
-[node name="Workbench2" parent="Spatial" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 1 )
+[node name="Workbench8" parent="Benches" instance=ExtResource( 2 )]
+transform = Transform( -1.46629e-07, 0, -0.9, 0, 0.9, 0, 0.9, 0, -1.46629e-07, 8.5, 0, 5 )
 
-[node name="Workbench3" parent="Spatial" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 1 )
+[node name="Table2" parent="Benches" instance=ExtResource( 3 )]
+transform = Transform( 0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 4, 0, 1.5 )
 
-[node name="Workbench4" parent="Spatial" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 1 )
+[node name="Table3" parent="Benches" instance=ExtResource( 3 )]
+transform = Transform( 0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 6, 0, 1.5 )
 
-[node name="Workbench8" parent="Spatial" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 3 )
+[node name="Table5" parent="Benches" instance=ExtResource( 3 )]
+transform = Transform( 0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 4, 0, 3.5 )
 
-[node name="Workbench7" parent="Spatial" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 3 )
+[node name="Table4" parent="Benches" instance=ExtResource( 3 )]
+transform = Transform( 0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 6, 0, 3.5 )
 
-[node name="Workbench6" parent="Spatial" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 3 )
+[node name="Table7" parent="Benches" instance=ExtResource( 3 )]
+transform = Transform( 0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 4, 0, 5.5 )
 
-[node name="Workbench5" parent="Spatial" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 3 )
+[node name="Table6" parent="Benches" instance=ExtResource( 3 )]
+transform = Transform( 0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 6, 0, 5.5 )
 
-[node name="Workbench12" parent="Spatial" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 5 )
+[node name="ReceivingTable" parent="Benches" instance=ExtResource( 4 )]
+transform = Transform( 0.85, 0, 0, 0, 0.9, 0, 0, 0, 0.85, 1.5, 0, 1.5 )
 
-[node name="Workbench11" parent="Spatial" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 5 )
-
-[node name="Workbench10" parent="Spatial" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 5 )
-
-[node name="Workbench9" parent="Spatial" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 5 )
-
-[node name="Workbench13" parent="Spatial" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 5 )
-
-[node name="Workbench14" parent="Spatial" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 4 )
-
-[node name="Workbench15" parent="Spatial" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 3 )
-
-[node name="Workbench16" parent="Spatial" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 2 )
-
-[node name="Workbench17" parent="Spatial" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1 )
+[node name="CSGBox" type="CSGBox" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 3.5, 3.5 )
+material_override = SubResource( 3 )
+width = 10.0
+height = 1.0
+depth = 7.0

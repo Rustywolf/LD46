@@ -1,0 +1,34 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path="res://.import/SM_plant_Plant_sick_redleaves_BaseColor.png-1dd809b48995bf067f7d1ff6323db8cc.stex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://Objects/Textures/Plant_sick_redleaves/SM_plant_Plant_sick_redleaves_BaseColor.png"
+dest_files=[ "res://.import/SM_plant_Plant_sick_redleaves_BaseColor.png-1dd809b48995bf067f7d1ff6323db8cc.stex" ]
+
+[params]
+
+compress/mode=0
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=0
+flags/repeat=0
+flags/filter=true
+flags/mipmaps=false
+flags/anisotropic=false
+flags/srgb=2
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+stream=false
+size_limit=0
+detect_3d=true
+svg/scale=1.0

@@ -2,7 +2,7 @@ extends KinematicBody
 
 const SPEED : float = 2.5
 const MOUSE_SENSITIVITY : float = 0.005
-const HELD_KEYS : Dictionary = {
+var HELD_KEYS : Dictionary = {
 	"forward": false,
 	"backward": false,
 	"left": false,
@@ -28,6 +28,13 @@ var run_interact := false;
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	HELD_KEYS = {
+		"forward": false,
+		"backward": false,
+		"left": false,
+		"right": false,
+	}
+	
 	velocity = Vector3.ZERO
 	looking_at = null
 	looking_at_spot = Vector3.ZERO
@@ -88,9 +95,12 @@ func _physics_process(delta):
 		elif collider.is_in_group("workbench"):
 			var collision_normal = raycast.get_collision_normal()
 			var target_point = collision_point - (collision_normal.normalized() / 2)
-			looking_at_spot = Vector3(floor(target_point.x), 1, floor(target_point.z))
+			looking_at_spot = Vector3(floor(target_point.x), .9, floor(target_point.z))
+			if not room.raised(looking_at_spot.x, looking_at_spot.z):
+				looking_at_spot.y = 0
 			
-		if (looking_at_spot.x != 1 || looking_at_spot.z != 1):
+		if (looking_at_spot.x != 1 || looking_at_spot.z != 1) and \
+			room.empty(looking_at_spot.x, looking_at_spot.z):
 			selector.visible = true
 			selector.transform.origin = looking_at_spot + Vector3(0.5, 0, 0.5)
 		else:
@@ -118,13 +128,39 @@ func _physics_process(delta):
 				new_text = "Pickup %s" % plant.display_name
 				
 	elif looking_at and equipped:
-		if equipped.is_in_group("tool") and looking_at.is_in_group("stem"):
-			new_text = "Use %s on %s" % [
+		if equipped.is_in_group("tool") and \
+			(looking_at.is_in_group("stem") or looking_at.is_in_group("plant")):
+			var plant = looking_at
+			if looking_at.is_in_group("stem"):
+				plant = plant.get_parent()
+			if plant.health <= 0:
+				new_text = "Remove dead %s" % plant.display_name
+			elif plant.age >= 1:
+				new_text = "Sell %s" % plant.display_name
+			else:
+				var meets_requirements := false
+				match(equipped.display_name):
+					"Watering Can":
+						meets_requirements = plant.water < 0.5
+					"Gardening Shears":
+						meets_requirements = plant.unhealthy_leaves
+					"Medicine":
+						meets_requirements = plant.diseased
+					"Fertilizer":
+						meets_requirements = true
+						
+				if meets_requirements:
+					new_text = "Use %s on %s" % [
+						equipped.display_name, 
+						looking_at.display_name
+					]
+		elif equipped.is_in_group("tool") and looking_at.is_in_group("tool"):
+			new_text = "Swap %s for %s" % [
 				equipped.display_name, 
 				looking_at.display_name
 			]
-			
-	elif looking_at_spot != Vector3.ZERO and equipped:
+	elif looking_at_spot != Vector3.ZERO and equipped and \
+		room.empty(looking_at_spot.x, looking_at_spot.z):
 		new_text = "Place %s" % equipped.display_name
 		
 	UI.pointer_text = new_text
@@ -140,8 +176,18 @@ func _unhandled_input(event):
 		if event.button_index == BUTTON_LEFT and event.pressed:
 			if equipped == null and looking_at != null:
 				run_equip = true
-			elif equipped != null and looking_at != null and looking_at.is_in_group("stem"):
-				run_interact = true
+			elif equipped != null and looking_at != null and \
+				(looking_at.is_in_group("stem") || looking_at.is_in_group("plant")):
+				var plant = looking_at
+				if looking_at.is_in_group("stem"):
+					plant = plant.get_parent()
+				if plant.age >= 1 or plant.health <= 0:
+					run_equip = true
+				else:
+					run_interact = true
+			elif equipped != null and looking_at != null and \
+				equipped.is_in_group("tool") and looking_at.is_in_group("tool"):
+				run_equip = true
 			elif equipped != null and looking_at_spot != Vector3.ZERO:
 				run_place = true
 	
@@ -189,36 +235,66 @@ func place(item: Spatial = null) -> bool:
 		return room.place(looking_at_spot.x, looking_at_spot.z, item)
 	
 
-func equip(item: Spatial = null) -> bool:
+func equip() -> bool:
 	if equipped:
-		pass
-		#assert(item == null)
-		#var x := int(looking_at.transform.origin.x)
-		#var z := int(looking_at.transform.origin.z)
-		#if x == 1 and z == 1:
-		#	return
-		#	
-		#room.pickup(x, z)
-		#assert(room.place(x, z, equipped))
-		#equipped.render_placed()
-		#equipped = looking_at
-		#looking_at = null
-	else:
-		if item:
-			if not item.is_in_group("plant") and not item.is_in_group("tool"):
+		var x := int(looking_at.transform.origin.x)
+		var z := int(looking_at.transform.origin.z)
+		if looking_at.is_in_group("plant") or looking_at.is_in_group("stem"):
+			var plant = looking_at
+			if plant.is_in_group("stem"):
+				plant = plant.get_parent()
+				 
+			if plant.age >= 1:
+				room.pickup(
+					int(plant.transform.origin.x), 
+					int(plant.transform.origin.z)
+				)
+				plant.get_parent().remove_child(plant)
+				plant.queue_free()
+				var price = 200 + 400 * plant.health
+				if plant.unhealthy_leaves:
+					price -= 200
+				if plant.diseased:
+					price -= 200
+				price = max(price, 100)
+				UI.add_money("Sold %s" % plant.display_name, price)
+				looking_at = null
+				room.plant_count -= 1
+				audio.play_place()
+				return true
+			elif plant.health <= 0:
+				room.pickup(
+					int(plant.transform.origin.x), 
+					int(plant.transform.origin.z)
+				)
+				plant.get_parent().remove_child(plant)
+				plant.queue_free()
+				plant = null
+				room.plant_count -= 1
+				audio.play_place()
+			else: 
 				return false
-			equipped = item
 		else:
-			var to_equip = looking_at
-			if to_equip.is_in_group("stem"):
-				to_equip = to_equip.get_parent()
+			if x == 1 and z == 1:
+				return false
 				
-			if not to_equip .is_in_group("plant") and \
-				not to_equip .is_in_group("tool"):
-					return false
-					
-			equipped = to_equip 
+			room.pickup(x, z)
+			room.place(x, z, equipped)
+			equipped.render_placed()
+			equipped = looking_at
 			looking_at = null
+	else:
+		var to_equip = looking_at
+		if to_equip.is_in_group("stem"):
+			to_equip = to_equip.get_parent()
+			
+		if not to_equip .is_in_group("plant") and \
+			not to_equip .is_in_group("tool"):
+				return false
+				
+		equipped = to_equip 
+		looking_at.hide_hover()
+		looking_at = null
 			
 		room.pickup(int(equipped.transform.origin.x), int(equipped.transform.origin.z))
 		
@@ -226,7 +302,13 @@ func equip(item: Spatial = null) -> bool:
 			if equipped.age >= 1:
 				equipped.get_parent().remove_child(equipped)
 				equipped.queue_free()
-				UI.add_money("Sold %s" % equipped.display_name, 200 + 200 * equipped.health)
+				var price = 200 + 400 * equipped.health
+				if equipped.unhealthy_leaves:
+					price -= 200
+				if equipped.diseased:
+					price -= 200
+				price = max(price, 100)
+				UI.add_money("Sold %s" % equipped.display_name, price)
 				equipped = null
 				room.plant_count -= 1
 				audio.play_place()
@@ -239,25 +321,28 @@ func equip(item: Spatial = null) -> bool:
 				audio.play_place()
 				return true
 		
-		equipped.hide_hover()
-		equipped.render_pickedup()
-		equipped.get_parent().remove_child(equipped)
-		viewport_camera.add_child(equipped)
-		equipped.transform.origin = Vector3(+0.5, -0.5, -1)
-		audio.play_place()
-		return true
-	return false
+	equipped.hide_hover()
+	equipped.render_pickedup()
+	equipped.get_parent().remove_child(equipped)
+	viewport_camera.add_child(equipped)
+	equipped.transform.origin = Vector3(+0.5, -0.5, -1)
+	audio.play_place()
+	return true
 	
 
 func interact() -> void:
-	if equipped.is_in_group("tool") and looking_at.is_in_group("stem"):
-		looking_at.get_parent().use_tool(equipped)
-		match(equipped.display_name):
-			"Watering Can":
-				audio.play_watering_can()
-			"Gardening Shears":
-				audio.play_shears()
-			"Medicine":
-				audio.play_medicine()
-			"Fertilizer":
-				audio.play_fertilizer()
+	if equipped.is_in_group("tool"):
+		var plant = looking_at
+		if looking_at.is_in_group("stem"):
+			plant = plant.get_parent()
+			
+		if plant.use_tool(equipped):
+			match(equipped.display_name):
+				"Watering Can":
+					audio.play_watering_can()
+				"Gardening Shears":
+					audio.play_shears()
+				"Medicine":
+					audio.play_medicine()
+				"Fertilizer":
+					audio.play_fertilizer()

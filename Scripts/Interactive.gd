@@ -4,7 +4,7 @@ class_name Interactive
 onready var outline: MeshInstance = $"Outline";
 var display_name := "";
 var initial_rotation := 0
-
+var diseased := false
 
 func _init(_name: String):
 	assert(_name != "" and _name != null)

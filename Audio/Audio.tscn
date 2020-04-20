@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Assets/shears.wav" type="AudioStream" id=1]
 [ext_resource path="res://Assets/pickup.wav" type="AudioStream" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Assets/WaterCan.wav" type="AudioStream" id=4]
 [ext_resource path="res://Assets/Pour.wav" type="AudioStream" id=5]
 [ext_resource path="res://Audio/Audio.gd" type="Script" id=6]
+[ext_resource path="res://Assets/ping.wav" type="AudioStream" id=7]
 
 [node name="Audio" type="Control"]
 anchor_right = 1.0
@@ -34,7 +35,12 @@ volume_db = 10.0
 [node name="Place" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 2 )
 volume_db = -10.0
+
+[node name="Ping" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+volume_db = -5.0
 [connection signal="finished" from="BagPour" to="." method="_on_BagPour_finished"]
 [connection signal="finished" from="WateringCan" to="." method="_on_WateringCan_finished"]
 [connection signal="finished" from="GardenShears" to="." method="_on_GardenShears_finished"]
 [connection signal="finished" from="Place" to="." method="_on_Place_finished"]
+[connection signal="finished" from="Ping" to="." method="_on_AudioStreamPlayer_finished"]

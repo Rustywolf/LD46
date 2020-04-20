@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/ping.wav-2bc6d29666274fa7182c76a433dea312.sample"
+
+[deps]
+
+source_file="res://Assets/ping.wav"
+dest_files=[ "res://.import/ping.wav-2bc6d29666274fa7182c76a433dea312.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

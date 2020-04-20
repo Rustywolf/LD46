@@ -1,7 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Assets/m5x7.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scripts/StartMenu.gd" type="Script" id=2]
+[ext_resource path="res://Assets/flashart4png.png" type="Texture" id=3]
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.231373, 0.380392, 0.231373, 1 )
 
 [sub_resource type="DynamicFont" id=1]
 size = 128
@@ -17,6 +21,7 @@ script = ExtResource( 2 )
 [node name="Panel" type="Panel" parent="CanvasLayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+custom_styles/panel = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -27,14 +32,28 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -500.0
-margin_top = -50.0
+margin_top = 150.0
 margin_right = 500.0
-margin_bottom = 50.0
+margin_bottom = 250.0
 rect_min_size = Vector2( 1000, 128 )
 custom_fonts/normal_font = SubResource( 1 )
 bbcode_enabled = true
 bbcode_text = "[center]START[/center]"
 text = "START"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -320.0
+margin_top = -500.0
+margin_right = 320.0
+margin_bottom = 140.0
+texture = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

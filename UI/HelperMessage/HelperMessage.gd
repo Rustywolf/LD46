@@ -1,7 +1,7 @@
 extends Control
 
 
-onready var text_label: RichTextLabel = $"MarginContainer/TextLabel"
+onready var text_label: RichTextLabel = $"MarginContainer2/MarginContainer/TextLabel"
 var text: String = "" setget set_text
 
 

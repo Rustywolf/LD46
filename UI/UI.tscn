@@ -134,16 +134,13 @@ bbcode_text = "[right]Rent: -$200[/right]"
 text = "Rent: -$200"
 
 [node name="HelperMessages" type="VBoxContainer" parent="."]
-anchor_left = 1.0
 anchor_top = 1.0
-anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -1920.0
 margin_top = -1080.0
-margin_right = -1420.0
+margin_right = 540.0
 grow_horizontal = 0
 grow_vertical = 0
-rect_min_size = Vector2( 500, 1080 )
+rect_min_size = Vector2( 540, 1080 )
 mouse_filter = 2
 alignment = 2
 __meta__ = {
@@ -178,8 +175,10 @@ custom_fonts/normal_font = SubResource( 5 )
 custom_colors/default_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 bbcode_enabled = true
-bbcode_text = "[center]Game Over[/center]"
-text = "Game Over"
+bbcode_text = "[center]Plants & Co 
+lasted 3 weeks[/center]"
+text = "Plants & Co 
+lasted 3 weeks"
 
 [node name="Retry" type="RichTextLabel" parent="GameOverModal/CenterContainer/VBoxContainer"]
 margin_top = 260.0

@@ -32,16 +32,18 @@ _global_script_class_icons={
 
 [application]
 
-config/name="LudumDare46"
+config/name="Herblore"
 run/main_scene="res://Scenes/MainMenu.tscn"
-config/icon="res://icon.png"
+config/icon="res://Assets/flashart3png.png"
+config/windows_native_icon="res://Assets/flashart3png.ico"
 
 [display]
 
 window/size/width=1920
 window/size/height=1080
-window/size/test_width=1024
-window/size/test_height=576
+window/size/test_width=1280
+window/size/test_height=720
+window/dpi/allow_hidpi=true
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 
