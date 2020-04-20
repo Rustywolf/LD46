@@ -1,10 +1,9 @@
 extends Spatial
 class_name Interactive
 
-onready var box: Spatial = $"CSGBox"
 onready var outline: MeshInstance = $"Outline";
-var outline_material: Material;
 var display_name := "";
+var initial_rotation := 0
 
 
 func _init(_name: String):
@@ -14,25 +13,25 @@ func _init(_name: String):
 
 func _ready():
 	assert(outline != null)
-	outline_material = outline.get_surface_material(0).duplicate();
-	outline.set_surface_material(0, outline_material);
-	
 	add_to_group("interactive")
 	
 
 func show_hover() -> void:
-	outline_material.albedo_color = Color.white;
+	outline.material_override.albedo_color = Color.white;
 	
 
 func hide_hover() -> void:
-	outline_material.albedo_color = Color.black;
+	outline.material_override.albedo_color = Color.black;
 	
 
-func render_infront() -> void:
-	box.material_override.flags_no_depth_test = true
-	outline_material.flags_no_depth_test = true
+func get_pickedup_rotation() -> float:
+	return 0.0
 	
 
-func render_normal() -> void:
-	box.material_override.flags_no_depth_test = false
-	outline_material.flags_no_depth_test = false
+func render_pickedup() -> void:
+	initial_rotation = rotation_degrees.y
+	rotation_degrees.y = get_pickedup_rotation()
+	
+
+func render_placed() -> void:
+	rotation_degrees.y = initial_rotation
